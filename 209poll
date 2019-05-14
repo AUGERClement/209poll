@@ -1,0 +1,43 @@
+#!/bin/python3
+
+from os import sys
+from math import sqrt
+
+def Convertisser(convertisser, Str):
+    try:
+        result = convertisser(Str)
+    except:
+        quit (84)
+    return result
+
+def parser():
+    if (len(sys.argv) != 4):
+        quit (84)
+    
+    pop = Convertisser(int, sys.argv[1])
+    sample = Convertisser(int, sys.argv[2])
+    intent = Convertisser(float, sys.argv[3])
+    
+    if (pop <= 0 or sample <= 0 or intent < 0 or intent > 100):
+        quit (84)
+    return pop, sample, intent
+
+def getVariance(pop, sample, intent):
+    s = intent / 100
+    variance = ((s * (1 - s)) / sample) * ((pop - sample) / (pop - 1))
+    return variance
+
+pop, sample, intent = parser()
+
+var = getVariance(pop, sample, intent)
+i95 = (2 * 1.96 * sqrt(var)) / 2 * 100
+i99 = (2 * 2.58 * sqrt(var)) / 2 * 100
+
+print("Population size:\t", pop, sep='')
+print("Sample size:\t\t", sample, sep='')
+print("Voting intentions:\t", "%.2f" % intent, "%", sep='')
+print("Variance:\t\t", "%.6f" % var, sep='')
+print("95% confidence interval: ", end='')
+print("[", "%.2f" % (intent - i95), "%; ", "%.2f" % (intent + i95), "%]", sep='')
+print("99% confidence interval: ", end='')
+print("[", "%.2f" % (intent - i99), "%; ", "%.2f" % (intent + i99), "%]", sep='')
