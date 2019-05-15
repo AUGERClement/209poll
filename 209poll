@@ -10,6 +10,14 @@ def Convertisser(convertisser, Str):
         quit (84)
     return result
 
+def check(nb, min = 0.0, max = 100.0):
+    if (nb > max):
+        return 100.0
+    elif (nb < min):
+        return 0.0
+    else:
+        return nb
+
 def parser():
     if (len(sys.argv) != 4):
         quit (84)
@@ -18,7 +26,7 @@ def parser():
     sample = Convertisser(int, sys.argv[2])
     intent = Convertisser(float, sys.argv[3])
     
-    if (pop <= 0 or sample <= 0 or intent < 0 or intent > 100):
+    if (pop <= 0 or sample <= 0 or sample > pop or intent < 0 or intent > 100):
         quit (84)
     return pop, sample, intent
 
@@ -38,6 +46,6 @@ print("Sample size:\t\t", sample, sep='')
 print("Voting intentions:\t", "%.2f" % intent, "%", sep='')
 print("Variance:\t\t", "%.6f" % var, sep='')
 print("95% confidence interval: ", end='')
-print("[", "%.2f" % (intent - i95), "%; ", "%.2f" % (intent + i95), "%]", sep='')
+print("[", "%.2f" % check(intent - i95), "%; ", "%.2f" % check(intent + i95), "%]", sep='')
 print("99% confidence interval: ", end='')
-print("[", "%.2f" % (intent - i99), "%; ", "%.2f" % (intent + i99), "%]", sep='')
+print("[", "%.2f" % check(intent - i99), "%; ", "%.2f" % check(intent + i99), "%]", sep='')
